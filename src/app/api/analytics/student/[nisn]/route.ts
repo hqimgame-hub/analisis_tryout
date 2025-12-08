@@ -1,13 +1,19 @@
 import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 
+type Params = {
+    params: Promise<{ nisn: string }>
+}
+
 export async function GET(
     request: Request,
-    { params }: { params: { nisn: string } }
+    { params }: Params
 ) {
     try {
+        const { nisn } = await params;
+
         const student = await prisma.student.findUnique({
-            where: { nisn: params.nisn },
+            where: { nisn },
             include: {
                 scores: {
                     include: {
