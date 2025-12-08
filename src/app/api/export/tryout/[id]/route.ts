@@ -26,7 +26,7 @@ export async function GET(request: Request, { params }: Params) {
         }
 
         // Group scores by student
-        const studentMap = new Map();
+        const studentMap = new Map<string, any>();
 
         tryout.scores.forEach(score => {
             const key = score.student.nisn;
@@ -37,14 +37,17 @@ export async function GET(request: Request, { params }: Params) {
                     Kelas: score.student.classroom,
                 });
             }
-            studentMap.get(key)[score.subject.code] = score.value;
+            const studentData = studentMap.get(key);
+            if (studentData) {
+                studentData[score.subject.code] = score.value;
+            }
         });
 
         const data = Array.from(studentMap.values());
 
         // Calculate totals and averages
         const subjects = [...new Set(tryout.scores.map(s => s.subject.code))];
-        data.forEach(row => {
+        data.forEach((row: any) => {
             let total = 0;
             let count = 0;
             subjects.forEach(subject => {
