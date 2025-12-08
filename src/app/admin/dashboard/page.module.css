@@ -1,0 +1,110 @@
+.container {
+    padding: var(--space-xl);
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: var(--space-xl);
+    padding-bottom: var(--space-md);
+    border-bottom: 1px solid var(--border-color);
+}
+
+.title {
+    font-size: 1.875rem;
+    color: var(--text-main);
+}
+
+.statsGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: var(--space-lg);
+    margin-bottom: var(--space-xl);
+}
+
+.cardTitle {
+    font-size: 1.25rem;
+    margin-bottom: var(--space-xs);
+    color: var(--text-main);
+}
+
+.cardDesc {
+    color: var(--text-muted);
+    font-size: 0.875rem;
+    margin-bottom: var(--space-md);
+}
+
+.bigStat {
+    font-size: 3rem;
+    font-weight: 800;
+    color: var(--primary);
+    line-height: 1;
+    margin: var(--space-sm) 0;
+}
+
+.actionParams {
+    margin-top: auto;
+}
+
+.section {
+    margin-top: var(--space-xl);
+}
+
+.sectionTitle {
+    font-size: 1.5rem;
+    margin-bottom: var(--space-lg);
+    color: var(--text-main);
+}
+
+.tryoutGrid {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-md);
+}
+
+.tryoutCard {
+    padding: var(--space-md);
+    transition: transform 0.2s;
+}
+
+.tryoutCard:hover {
+    transform: translateY(-2px);
+    border-color: var(--primary-light);
+}
+
+.tryoutHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+
+.tryoutName {
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: var(--text-main);
+    margin-bottom: 0.25rem;
+}
+
+.tryoutDate {
+    font-size: 0.875rem;
+    color: var(--text-muted);
+}
+
+.tryoutStats {
+    margin-top: var(--space-md);
+    padding-top: var(--space-sm);
+    border-top: 1px dashed var(--border-color);
+    font-size: 0.875rem;
+    color: var(--text-muted);
+}
+
+.loading,
+.empty {
+    text-align: center;
+    padding: var(--space-xl);
+    color: var(--text-muted);
+    font-style: italic;
+}

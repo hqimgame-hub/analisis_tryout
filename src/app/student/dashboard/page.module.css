@@ -1,0 +1,282 @@
+.container {
+    padding: var(--space-xl);
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.centerContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 80vh;
+    padding: var(--space-md);
+}
+
+.center {
+    text-align: center;
+    padding: var(--space-xl);
+    font-size: 1.125rem;
+    color: var(--text-muted);
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: var(--space-xl);
+    padding-bottom: var(--space-md);
+    border-bottom: 1px solid var(--border-color);
+}
+
+.headerActions {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+}
+
+.title {
+    font-size: 2rem;
+    margin-bottom: var(--space-xs);
+    color: var(--text-main);
+}
+
+.subtitle {
+    color: var(--text-muted);
+    margin: 0;
+}
+
+.statsGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+    margin-bottom: 2rem;
+}
+
+.statCard {
+    text-align: center;
+}
+
+.statLabel {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    margin-bottom: 0.5rem;
+}
+
+.statValue {
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--primary);
+}
+
+.statSmall {
+    font-size: 1rem;
+    color: var(--text-secondary);
+    font-weight: 400;
+}
+
+.chartSection {
+    margin-bottom: var(--space-xl);
+}
+
+.subjectChartsSection {
+    margin-bottom: var(--space-xl);
+}
+
+.subjectChartsGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1rem;
+}
+
+.subjectChartCard {
+    min-height: 250px;
+}
+
+.subjectChartTitle {
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin: 0 0 1rem 0;
+    color: var(--primary);
+    text-align: center;
+}
+
+.historySection {
+    margin-bottom: var(--space-xl);
+}
+
+.sectionTitle {
+    font-size: 1.5rem;
+    margin-bottom: var(--space-lg);
+    color: var(--text-main);
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: var(--space-lg);
+}
+
+.resultCard {
+    padding: var(--space-lg);
+}
+
+.cardHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: var(--space-md);
+    padding-bottom: var(--space-md);
+    border-bottom: 1px solid var(--border-color);
+}
+
+.tryoutName {
+    font-size: 1.125rem;
+    font-weight: 600;
+    margin-bottom: 0.25rem;
+}
+
+.date {
+    font-size: 0.875rem;
+    color: var(--text-muted);
+}
+
+.averageBadge {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--primary);
+    color: var(--text-inverted);
+    padding: var(--space-xs) var(--space-sm);
+    border-radius: var(--radius-md);
+    min-width: 60px;
+}
+
+.avgLabel {
+    font-size: 0.625rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.avgValue {
+    font-size: 1.5rem;
+    font-weight: 700;
+}
+
+.scoresList {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+    gap: var(--space-sm);
+}
+
+.scoreItem {
+    display: flex;
+    justify-content: space-between;
+    padding: var(--space-xs) var(--space-sm);
+    background-color: var(--bg-secondary);
+    border-radius: var(--radius-sm);
+    font-size: 0.875rem;
+}
+
+.scoreValue {
+    font-weight: 600;
+    color: var(--primary);
+}
+
+.errorCard {
+    max-width: 500px;
+    text-align: center;
+}
+
+.errorTitle {
+    color: var(--danger);
+    margin-bottom: var(--space-md);
+}
+
+.errorText {
+    margin-bottom: var(--space-lg);
+    color: var(--text-muted);
+}
+
+/* Analytics Section */
+.analysisSection {
+    margin-bottom: 2rem;
+}
+
+.analysisGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1rem;
+}
+
+.strengthCard,
+.weaknessCard {
+    text-align: center;
+}
+
+.strengthCard {
+    background: linear-gradient(135deg, #d4f1d4 0%, #a8e6a8 100%);
+}
+
+.weaknessCard {
+    background: linear-gradient(135deg, #ffe4e1 0%, #ffc4c4 100%);
+}
+
+.badgeIcon {
+    font-size: 3rem;
+    margin-bottom: 0.5rem;
+}
+
+.strengthCard h3,
+.weaknessCard h3 {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    margin: 0 0 0.5rem 0;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.subjectName {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--text-main);
+    margin-bottom: 0.5rem;
+}
+
+.subjectAvg {
+    font-size: 1rem;
+    color: var(--text-secondary);
+    margin-bottom: 0.5rem;
+}
+
+.recommendation {
+    font-size: 0.9rem;
+    color: #d97706;
+    font-weight: 600;
+    margin-top: 0.5rem;
+}
+
+/* KKM Section */
+.kkmSection {
+    margin-bottom: 2rem;
+}
+
+.radarSection {
+    margin-bottom: 1.5rem;
+}
+
+.progressSection {
+    margin-top: 1.5rem;
+}
+
+.chartTitle {
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin: 0 0 0.5rem 0;
+}
+
+.chartDesc {
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+    margin: 0 0 1rem 0;
+}

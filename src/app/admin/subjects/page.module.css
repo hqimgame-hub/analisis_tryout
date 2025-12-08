@@ -1,0 +1,165 @@
+.container {
+    padding: 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+}
+
+.header h1 {
+    font-size: 2rem;
+    color: var(--text-primary);
+}
+
+.loading {
+    text-align: center;
+    padding: 4rem;
+    font-size: 1.2rem;
+    color: var(--text-secondary);
+}
+
+.formSection,
+.tableSection {
+    background: var(--surface);
+    border-radius: var(--radius-lg);
+    padding: 1.5rem;
+    margin-bottom: 2rem;
+    box-shadow: var(--shadow-md);
+}
+
+.formSection h2,
+.tableSection h2 {
+    font-size: 1.3rem;
+    margin-bottom: 1rem;
+    color: var(--text-primary);
+}
+
+.form {
+    display: grid;
+    grid-template-columns: 200px 1fr;
+    gap: 1rem;
+}
+
+.form input {
+    padding: 0.75rem;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    font-size: 1rem;
+    background: var(--background);
+    color: var(--text-primary);
+}
+
+.form input:focus {
+    outline: none;
+    border-color: var(--primary);
+}
+
+.form input:disabled {
+    background: var(--surface-hover);
+    cursor: not-allowed;
+}
+
+.formButtons {
+    grid-column: 1 / -1;
+    display: flex;
+    gap: 1rem;
+}
+
+.table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 1rem;
+}
+
+.table th,
+.table td {
+    padding: 1rem;
+    text-align: left;
+    border-bottom: 1px solid var(--border);
+}
+
+.table th {
+    background: var(--surface-hover);
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+.table tbody tr:hover {
+    background: var(--surface-hover);
+}
+
+.actions {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.actions button {
+    padding: 0.5rem 1rem;
+    border: none;
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: all 0.2s;
+}
+
+.actions button:first-child {
+    background: var(--primary);
+    color: white;
+}
+
+.actions button:first-child:hover {
+    background: var(--primary-dark);
+}
+
+.actions button:last-child {
+    background: var(--danger);
+    color: white;
+}
+
+.actions button:last-child:hover {
+    opacity: 0.8;
+}
+
+.statsCell {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+}
+
+.mainStat {
+    font-weight: 600;
+    color: var(--text-primary);
+    cursor: help;
+}
+
+.subStat {
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+    font-style: italic;
+    cursor: help;
+}
+
+.actions button[title] {
+    position: relative;
+}
+
+.actions button[title]:hover::after {
+    content: attr(title);
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(0, 0, 0, 0.9);
+    color: white;
+    padding: 0.5rem;
+    border-radius: 4px;
+    font-size: 0.75rem;
+    white-space: nowrap;
+    z-index: 1000;
+    margin-bottom: 0.5rem;
+}

@@ -1,0 +1,69 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id       String @id @default(cuid())
+  username String @unique
+  password String
+  role     String // ADMIN, TEACHER, etc
+}
+
+model Student {
+  id        String  @id @default(cuid())
+  nisn      String  @unique
+  name      String
+  classroom String
+  scores    Score[]
+}
+
+model Tryout {
+  id        String   @id @default(cuid())
+  name      String
+  date      DateTime
+  scores    Score[]
+  subjects  TryoutSubject[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Subject {
+  id        String   @id @default(cuid())
+  code      String   @unique // e.g., "MAT", "IPA", "BIND"
+  name      String   // e.g., "Matematika", "Ilmu Pengetahuan Alam"
+  kkm       Float?   // Kriteria Ketuntasan Minimal (optional)
+  scores    Score[]
+  tryouts   TryoutSubject[]
+}
+
+model Score {
+  id        String  @id @default(cuid())
+  value     Float
+  studentId String
+  tryoutId  String
+  subjectId String
+  
+  student   Student @relation(fields: [studentId], references: [id], onDelete: Cascade)
+  tryout    Tryout  @relation(fields: [tryoutId], references: [id], onDelete: Cascade)
+  subject   Subject @relation(fields: [subjectId], references: [id], onDelete: Cascade)
+
+  @@unique([studentId, tryoutId, subjectId]) // Satu siswa, satu tryout, satu nilai per mapel
+}
+
+model TryoutSubject {
+  id         String   @id @default(cuid())
+  tryoutId   String
+  subjectId  String
+  tryout     Tryout   @relation(fields: [tryoutId], references: [id], onDelete: Cascade)
+  subject    Subject  @relation(fields: [subjectId], references: [id], onDelete: Cascade)
+  
+  @@unique([tryoutId, subjectId])
+}

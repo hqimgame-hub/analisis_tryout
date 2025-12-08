@@ -1,0 +1,155 @@
+.container {
+    padding: 2rem;
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 2rem;
+}
+
+.subtitle {
+    color: var(--text-secondary);
+    margin-top: 0.5rem;
+}
+
+.loading,
+.error {
+    text-align: center;
+    padding: 4rem;
+    font-size: 1.2rem;
+}
+
+.error {
+    color: var(--danger);
+}
+
+.comparisonCard {
+    background: var(--surface);
+    border-radius: var(--radius-lg);
+    padding: 1.5rem;
+    margin-bottom: 2rem;
+    box-shadow: var(--shadow-md);
+}
+
+.comparisonStats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1.5rem;
+    margin-top: 1rem;
+}
+
+.statItem {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.statLabel {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+}
+
+.statValue {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--text-primary);
+}
+
+.statValue.positive {
+    color: var(--success);
+}
+
+.statValue.negative {
+    color: var(--danger);
+}
+
+.trendsSection {
+    margin-bottom: 2rem;
+}
+
+.subjectCard {
+    background: var(--surface);
+    border-radius: var(--radius-lg);
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+    box-shadow: var(--shadow-md);
+}
+
+.subjectHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.subjectStats {
+    display: flex;
+    gap: 1rem;
+    font-size: 0.9rem;
+}
+
+.improving {
+    color: var(--success);
+    font-weight: 600;
+}
+
+.declining {
+    color: var(--danger);
+    font-weight: 600;
+}
+
+.chartContainer {
+    height: 250px;
+    position: relative;
+    margin-bottom: 1rem;
+}
+
+.scoresList {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 0.5rem;
+}
+
+.scoreItem {
+    display: flex;
+    justify-content: space-between;
+    padding: 0.5rem;
+    background: var(--background);
+    border-radius: var(--radius-sm);
+    font-size: 0.9rem;
+}
+
+.aboveKKM {
+    color: var(--success);
+    font-weight: 600;
+}
+
+.belowKKM {
+    color: var(--danger);
+    font-weight: 600;
+}
+
+.recommendations {
+    background: #fff3cd;
+    border: 1px solid #ffc107;
+    border-radius: var(--radius-lg);
+    padding: 1.5rem;
+}
+
+.recommendations h3 {
+    margin-top: 0;
+    color: #856404;
+}
+
+.recommendations ul {
+    margin: 0.5rem 0 0 1.5rem;
+    color: #856404;
+}
+
+.recommendations li {
+    margin: 0.5rem 0;
+}

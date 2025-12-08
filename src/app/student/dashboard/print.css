@@ -1,0 +1,79 @@
+/* Print Styles - Global */
+@media print {
+
+    /* Hide non-essential elements */
+    button,
+    .no-print {
+        display: none !important;
+    }
+
+    /* Page setup */
+    @page {
+        size: A4;
+        margin: 2cm;
+    }
+
+    body {
+        print-color-adjust: exact;
+        -webkit-print-color-adjust: exact;
+    }
+
+    /* Prevent page breaks inside elements */
+    .stat-card,
+    .chart-section,
+    .subject-chart-card,
+    .result-card {
+        page-break-inside: avoid;
+        break-inside: avoid;
+    }
+
+    /* Chart sections */
+    .chart-section {
+        page-break-before: auto;
+        page-break-after: auto;
+    }
+
+    /* Ensure charts are visible */
+    canvas {
+        max-width: 100% !important;
+        height: auto !important;
+    }
+
+    /* Typography */
+    h1 {
+        font-size: 20pt;
+        color: #000;
+    }
+
+    h2 {
+        font-size: 14pt;
+        color: #000;
+        margin-top: 1cm;
+        border-bottom: 2pt solid #0066cc;
+        padding-bottom: 0.2cm;
+    }
+
+    /* Hide backgrounds for better print */
+    .strength-card,
+    .weakness-card {
+        background: white !important;
+        border: 2pt solid #ccc;
+    }
+
+    /* Progress bars */
+    .progress-bar-container {
+        border: 1pt solid #ccc;
+    }
+
+    /* Subject charts - 2 per page */
+    .subject-charts-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 0.5cm;
+    }
+
+    /* History section */
+    .history-section {
+        page-break-before: always;
+    }
+}
