@@ -1,10 +1,13 @@
-// src/app/api/export/tryout/[id]/route.ts
-import { NextResponse, type NextRequest } from 'next/server';
+import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 
-export async function GET(request: NextRequest, context: { params: { id: string } }) {
+type Params = {
+    params: Promise<{ id: string }>
+}
+
+export async function GET(request: Request, { params }: Params) {
     try {
-        const { id } = context.params;
+        const { id } = await params;
 
         const tryout = await prisma.tryout.findUnique({
             where: { id },
@@ -12,10 +15,10 @@ export async function GET(request: NextRequest, context: { params: { id: string 
                 scores: {
                     include: {
                         student: true,
-                        subject: true,
-                    },
-                },
-            },
+                        subject: true
+                    }
+                }
+            }
         });
 
         if (!tryout) {
@@ -26,20 +29,17 @@ export async function GET(request: NextRequest, context: { params: { id: string 
         const studentMap = new Map<string, any>();
 
         tryout.scores.forEach(score => {
-            // gunakan nisn kalau ada, fallback ke id siswa jika perlu
-            const key = score.student?.nisn ?? `student-${score.student?.id ?? Math.random()}`;
-
+            const key = score.student.nisn;
             if (!studentMap.has(key)) {
                 studentMap.set(key, {
-                    NISN: score.student?.nisn ?? null,
-                    Nama: score.student?.name ?? 'Unknown',
-                    Kelas: score.student?.classroom ?? null,
+                    NISN: score.student.nisn,
+                    Nama: score.student.name,
+                    Kelas: score.student.classroom,
                 });
             }
             const studentData = studentMap.get(key);
             if (studentData) {
-                // pastikan value numerik jika mungkin
-                studentData[score.subject.code] = typeof score.value === 'number' ? score.value : Number(score.value) || 0;
+                studentData[score.subject.code] = score.value;
             }
         });
 
@@ -51,26 +51,28 @@ export async function GET(request: NextRequest, context: { params: { id: string 
             let total = 0;
             let count = 0;
             subjects.forEach(subject => {
-                if (row[subject] !== undefined && row[subject] !== null) {
-                    total += Number(row[subject]) || 0;
+                if (row[subject]) {
+                    total += row[subject];
                     count++;
                 }
             });
             row.Total = total;
-            row['Rata-rata'] = count > 0 ? (total / count).toFixed(2) : '0.00';
+            row['Rata-rata'] = count > 0 ? (total / count).toFixed(2) : 0;
         });
 
         return NextResponse.json({
             success: true,
             data: {
                 tryoutName: tryout.name,
-                // serialisasi date ke ISO string supaya JSON-safe
-                tryoutDate: tryout.date ? new Date(tryout.date).toISOString() : null,
-                students: data,
-            },
+                tryoutDate: tryout.date,
+                students: data
+            }
         });
     } catch (error) {
         console.error('Export error:', error);
-        return NextResponse.json({ error: 'Gagal export data' }, { status: 500 });
+        return NextResponse.json(
+            { error: 'Gagal export data' },
+            { status: 500 }
+        );
     }
 }
