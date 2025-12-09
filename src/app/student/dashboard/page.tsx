@@ -12,6 +12,9 @@ import { generateStudentPDF } from '@/utils/pdfExport';
 import styles from './page.module.css';
 import './print.css';
 
+// Force dynamic rendering - prevent prerendering
+export const dynamic = 'force-dynamic';
+
 interface TryoutResult {
     id: string;
     name: string;
