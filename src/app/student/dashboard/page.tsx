@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState, use } from 'react';
+import { useEffect, useState, Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { Button } from '@/components/ui/Button';
 import { Card } from '@/components/ui/Card';
@@ -64,8 +64,8 @@ interface StudentData {
     }>;
 }
 
-// Wrap in Suspense boundary in real app, but for now standard component
-export default function StudentDashboard() {
+// Inner component that uses useSearchParams
+function StudentDashboardContent() {
     const searchParams = useSearchParams();
     const nisn = searchParams.get('nisn');
 
@@ -315,5 +315,14 @@ export default function StudentDashboard() {
                 </div>
             </section>
         </div>
+    );
+}
+
+// Main export wrapped in Suspense
+export default function StudentDashboard() {
+    return (
+        <Suspense fallback={<div className={styles.center}>Memuat data siswa...</div>}>
+            <StudentDashboardContent />
+        </Suspense>
     );
 }
