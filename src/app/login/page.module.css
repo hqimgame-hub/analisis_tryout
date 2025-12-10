@@ -2,7 +2,7 @@
     min-height: 100vh;
     display: flex;
     flex-direction: column;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
 }
 
 .container {
@@ -16,19 +16,27 @@
 .loginCard {
     width: 100%;
     max-width: 400px;
+    border: 1px solid rgba(148, 163, 184, 0.1);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
 }
 
 .title {
     text-align: center;
     margin-bottom: var(--space-xs);
-    color: var(--text-main);
+    font-size: 2rem;
+    font-weight: 700;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
 }
 
 .subtitle {
     text-align: center;
-    color: var(--text-muted);
+    color: #64748b;
     margin-bottom: var(--space-xl);
     font-size: 0.875rem;
+    font-weight: 400;
 }
 
 .form {
