@@ -14,7 +14,7 @@ export default function Footer() {
                     </div>
                     <div className={styles.copyright}>
                         <p>&copy; {new Date().getFullYear()} {SCHOOL_CONFIG.name}</p>
-                        <p>Sistem Analisis Tryout Kelas 9</p>
+                        <p>{process.env.NEXT_PUBLIC_SCHOOL_NAME || 'Sistem Analisis Tryout Kelas 9'}</p>
                     </div>
                 </div>
             </div>

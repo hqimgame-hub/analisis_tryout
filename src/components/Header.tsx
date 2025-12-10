@@ -21,7 +21,9 @@ export default function Header({ showLogo = true, title }: HeaderProps) {
                         </div>
                         <div className={styles.schoolInfo}>
                             <h1 className={styles.schoolName}>{SCHOOL_CONFIG.name}</h1>
-                            <p className={styles.schoolTagline}>Sistem Analisis Tryout Kelas 9</p>
+                            <p className={styles.schoolTagline}>
+                                {process.env.NEXT_PUBLIC_SCHOOL_NAME || 'Sistem Analisis Tryout Kelas 9'}
+                            </p>
                         </div>
                     </div>
                 )}

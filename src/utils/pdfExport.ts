@@ -35,7 +35,8 @@ export const generateStudentPDF = (data: StudentData) => {
     yPos += 10;
     doc.setFontSize(12);
     doc.setFont('helvetica', 'normal');
-    doc.text('Sistem Analisis Tryout Kelas 9', pageWidth / 2, yPos, { align: 'center' });
+    const schoolName = process.env.NEXT_PUBLIC_SCHOOL_NAME || 'Sistem Analisis Tryout Kelas 9';
+    doc.text(schoolName, pageWidth / 2, yPos, { align: 'center' });
 
     yPos += 15;
     doc.setDrawColor(0, 102, 204);
