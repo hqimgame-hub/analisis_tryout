@@ -24,12 +24,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" suppressHydrationWarning>
-      <head>
-        {/* Blocking script to set theme before React hydrates - prevents flash and hydration mismatch */}
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `
+    <body className={`${geistSans.variable} ${geistMono.variable}`} suppressHydrationWarning>
+      {/* Blocking script to set theme before React hydrates - prevents flash and hydration mismatch */}
+      <script
+        dangerouslySetInnerHTML={{
+          __html: `
               (function() {
                 try {
                   const theme = localStorage.getItem('theme');
@@ -39,14 +38,12 @@ export default function RootLayout({
                 } catch (e) {}
               })();
             `,
-          }}
-        />
-      </head>
-      <body className={`${geistSans.variable} ${geistMono.variable}`} suppressHydrationWarning>
-        <ThemeProvider>
-          {children}
-        </ThemeProvider>
-      </body>
-    </html>
+        }}
+      />
+      <ThemeProvider>
+        {children}
+      </ThemeProvider>
+    </body>
+    </html >
   );
 }
