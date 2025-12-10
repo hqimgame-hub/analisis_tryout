@@ -1,4 +1,5 @@
 import { SCHOOL_CONFIG } from '@/config/school';
+import { ThemeToggle } from '@/components/ThemeToggle';
 import styles from './Header.module.css';
 
 interface HeaderProps {
@@ -29,7 +30,11 @@ export default function Header({ showLogo = true, title }: HeaderProps) {
                         <h2>{title}</h2>
                     </div>
                 )}
+                <div className={styles.themeToggleWrapper}>
+                    <ThemeToggle />
+                </div>
             </div>
         </header>
     );
 }
+

@@ -9,6 +9,10 @@
     max-width: 1400px;
     margin: 0 auto;
     padding: 0 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
 }
 
 .logoSection {
@@ -55,6 +59,10 @@
     font-size: 1rem;
     opacity: 0.95;
     font-weight: 300;
+}
+
+.themeToggleWrapper {
+    margin-left: auto;
 }
 
 .titleSection h2 {

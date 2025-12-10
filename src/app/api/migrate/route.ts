@@ -1,136 +1,56 @@
 import { NextResponse } from 'next/server';
-import { PrismaClient } from '@prisma/client';
-
-const prisma = new PrismaClient();
+import { spawn } from 'child_process';
 
 export async function GET() {
     try {
-        // Create tables one by one
-        await prisma.$executeRawUnsafe(`
-            CREATE TABLE IF NOT EXISTS "User" (
-                "id" TEXT NOT NULL,
-                "username" TEXT NOT NULL,
-                "password" TEXT NOT NULL,
-                "role" TEXT NOT NULL,
-                CONSTRAINT "User_pkey" PRIMARY KEY ("id")
-            )
-        `);
+        // Use Prisma db push to sync schema to database
+        // This uses proper connection handling and permissions
+        const result = await new Promise<{ stdout: string, stderr: string }>((resolve, reject) => {
+            const process = spawn('npx', ['prisma', 'db', 'push', '--accept-data-loss'], {
+                cwd: process.cwd(),
+                env: {
+                    ...process.env,
+                    DATABASE_URL: process.env.DATABASE_URL,
+                },
+            });
 
-        await prisma.$executeRawUnsafe(`
-            CREATE TABLE IF NOT EXISTS "Student" (
-                "id" TEXT NOT NULL,
-                "nisn" TEXT NOT NULL,
-                "name" TEXT NOT NULL,
-                "classroom" TEXT NOT NULL,
-                CONSTRAINT "Student_pkey" PRIMARY KEY ("id")
-            )
-        `);
+            let stdout = '';
+            let stderr = '';
 
-        await prisma.$executeRawUnsafe(`
-            CREATE TABLE IF NOT EXISTS "Tryout" (
-                "id" TEXT NOT NULL,
-                "name" TEXT NOT NULL,
-                "date" TIMESTAMP(3) NOT NULL,
-                "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
-                "updatedAt" TIMESTAMP(3) NOT NULL,
-                CONSTRAINT "Tryout_pkey" PRIMARY KEY ("id")
-            )
-        `);
+            process.stdout.on('data', (data) => {
+                stdout += data.toString();
+            });
 
-        await prisma.$executeRawUnsafe(`
-            CREATE TABLE IF NOT EXISTS "Subject" (
-                "id" TEXT NOT NULL,
-                "code" TEXT NOT NULL,
-                "name" TEXT NOT NULL,
-                "kkm" DOUBLE PRECISION,
-                CONSTRAINT "Subject_pkey" PRIMARY KEY ("id")
-            )
-        `);
+            process.stderr.on('data', (data) => {
+                stderr += data.toString();
+            });
 
-        await prisma.$executeRawUnsafe(`
-            CREATE TABLE IF NOT EXISTS "Score" (
-                "id" TEXT NOT NULL,
-                "value" DOUBLE PRECISION NOT NULL,
-                "studentId" TEXT NOT NULL,
-                "tryoutId" TEXT NOT NULL,
-                "subjectId" TEXT NOT NULL,
-                CONSTRAINT "Score_pkey" PRIMARY KEY ("id")
-            )
-        `);
+            process.on('close', (code) => {
+                if (code === 0) {
+                    resolve({ stdout, stderr });
+                } else {
+                    reject(new Error(`Process exited with code ${code}\n${stderr}`));
+                }
+            });
 
-        await prisma.$executeRawUnsafe(`
-            CREATE TABLE IF NOT EXISTS "TryoutSubject" (
-                "id" TEXT NOT NULL,
-                "tryoutId" TEXT NOT NULL,
-                "subjectId" TEXT NOT NULL,
-                CONSTRAINT "TryoutSubject_pkey" PRIMARY KEY ("id")
-            )
-        `);
-
-        // Create indexes
-        await prisma.$executeRawUnsafe(`CREATE UNIQUE INDEX IF NOT EXISTS "User_username_key" ON "User"("username")`);
-        await prisma.$executeRawUnsafe(`CREATE UNIQUE INDEX IF NOT EXISTS "Student_nisn_key" ON "Student"("nisn")`);
-        await prisma.$executeRawUnsafe(`CREATE UNIQUE INDEX IF NOT EXISTS "Subject_code_key" ON "Subject"("code")`);
-        await prisma.$executeRawUnsafe(`CREATE UNIQUE INDEX IF NOT EXISTS "Score_studentId_tryoutId_subjectId_key" ON "Score"("studentId", "tryoutId", "subjectId")`);
-        await prisma.$executeRawUnsafe(`CREATE UNIQUE INDEX IF NOT EXISTS "TryoutSubject_tryoutId_subjectId_key" ON "TryoutSubject"("tryoutId", "subjectId")`);
-
-        // Add foreign keys with existence checks
-        await prisma.$executeRawUnsafe(`
-            DO $$ 
-            BEGIN
-                IF NOT EXISTS (SELECT 1 FROM pg_constraint WHERE conname = 'Score_studentId_fkey') THEN
-                    ALTER TABLE "Score" ADD CONSTRAINT "Score_studentId_fkey" FOREIGN KEY ("studentId") REFERENCES "Student"("id") ON DELETE CASCADE ON UPDATE CASCADE;
-                END IF;
-            END $$
-        `);
-
-        await prisma.$executeRawUnsafe(`
-            DO $$ 
-            BEGIN
-                IF NOT EXISTS (SELECT 1 FROM pg_constraint WHERE conname = 'Score_tryoutId_fkey') THEN
-                    ALTER TABLE "Score" ADD CONSTRAINT "Score_tryoutId_fkey" FOREIGN KEY ("tryoutId") REFERENCES "Tryout"("id") ON DELETE CASCADE ON UPDATE CASCADE;
-                END IF;
-            END $$
-        `);
-
-        await prisma.$executeRawUnsafe(`
-            DO $$ 
-            BEGIN
-                IF NOT EXISTS (SELECT 1 FROM pg_constraint WHERE conname = 'Score_subjectId_fkey') THEN
-                    ALTER TABLE "Score" ADD CONSTRAINT "Score_subjectId_fkey" FOREIGN KEY ("subjectId") REFERENCES "Subject"("id") ON DELETE CASCADE ON UPDATE CASCADE;
-                END IF;
-            END $$
-        `);
-
-        await prisma.$executeRawUnsafe(`
-            DO $$ 
-            BEGIN
-                IF NOT EXISTS (SELECT 1 FROM pg_constraint WHERE conname = 'TryoutSubject_tryoutId_fkey') THEN
-                    ALTER TABLE "TryoutSubject" ADD CONSTRAINT "TryoutSubject_tryoutId_fkey" FOREIGN KEY ("tryoutId") REFERENCES "Tryout"("id") ON DELETE CASCADE ON UPDATE CASCADE;
-                END IF;
-            END $$
-        `);
-
-        await prisma.$executeRawUnsafe(`
-            DO $$ 
-            BEGIN
-                IF NOT EXISTS (SELECT 1 FROM pg_constraint WHERE conname = 'TryoutSubject_subjectId_fkey') THEN
-                    ALTER TABLE "TryoutSubject" ADD CONSTRAINT "TryoutSubject_subjectId_fkey" FOREIGN KEY ("subjectId") REFERENCES "Subject"("id") ON DELETE CASCADE ON UPDATE CASCADE;
-                END IF;
-            END $$
-        `);
+            process.on('error', (error) => {
+                reject(error);
+            });
+        });
 
         return NextResponse.json({
             success: true,
-            message: 'Database migration completed successfully - all tables created'
+            message: 'Database schema pushed successfully',
+            details: result.stdout
         });
     } catch (error) {
-        console.error('Migration error:', error);
+        console.error('DB push error:', error);
         return NextResponse.json(
-            { error: `Migration failed: ${error instanceof Error ? error.message : String(error)}` },
+            {
+                error: `DB push failed: ${error instanceof Error ? error.message : String(error)}`,
+                suggestion: 'Please run migration manually using Vercel CLI or check database permissions'
+            },
             { status: 500 }
         );
-    } finally {
-        await prisma.$disconnect();
     }
 }
