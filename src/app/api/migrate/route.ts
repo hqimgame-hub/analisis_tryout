@@ -6,7 +6,7 @@ export async function GET() {
         // Use Prisma db push to sync schema to database
         // This uses proper connection handling and permissions
         const result = await new Promise<{ stdout: string, stderr: string }>((resolve, reject) => {
-            const process = spawn('npx', ['prisma', 'db', 'push', '--accept-data-loss'], {
+            const childProcess = spawn('npx', ['prisma', 'db', 'push', '--accept-data-loss'], {
                 cwd: process.cwd(),
                 env: {
                     ...process.env,
@@ -17,15 +17,15 @@ export async function GET() {
             let stdout = '';
             let stderr = '';
 
-            process.stdout.on('data', (data) => {
+            childProcess.stdout.on('data', (data) => {
                 stdout += data.toString();
             });
 
-            process.stderr.on('data', (data) => {
+            childProcess.stderr.on('data', (data) => {
                 stderr += data.toString();
             });
 
-            process.on('close', (code) => {
+            childProcess.on('close', (code) => {
                 if (code === 0) {
                     resolve({ stdout, stderr });
                 } else {
@@ -33,7 +33,7 @@ export async function GET() {
                 }
             });
 
-            process.on('error', (error) => {
+            childProcess.on('error', (error) => {
                 reject(error);
             });
         });
