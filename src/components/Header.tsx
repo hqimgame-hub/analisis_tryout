@@ -1,4 +1,5 @@
 import { SCHOOL_CONFIG } from '@/config/school';
+/* import Image from 'next/image'; // Option if we want optimized images, but img is easier for generic paths */
 import { ThemeToggle } from '@/components/ThemeToggle';
 import styles from './Header.module.css';
 
@@ -14,10 +15,19 @@ export default function Header({ showLogo = true, title }: HeaderProps) {
                 {showLogo && (
                     <div className={styles.logoSection}>
                         <div className={styles.logoPlaceholder}>
-                            {/* Replace with actual logo image */}
-                            <div className={styles.logoCircle}>
-                                <span className={styles.logoText}>LOGO</span>
-                            </div>
+                            {SCHOOL_CONFIG.logo ? (
+                                <img
+                                    src={SCHOOL_CONFIG.logo}
+                                    alt={`${SCHOOL_CONFIG.name} Logo`}
+                                    className={styles.logoImage}
+                                    width={50}
+                                    height={50}
+                                />
+                            ) : (
+                                <div className={styles.logoCircle}>
+                                    <span className={styles.logoText}>LOGO</span>
+                                </div>
+                            )}
                         </div>
                         <div className={styles.schoolInfo}>
                             <h1 className={styles.schoolName}>{SCHOOL_CONFIG.name}</h1>
